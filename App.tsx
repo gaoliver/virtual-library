@@ -1,12 +1,9 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import {NativeBaseProvider} from 'native-base';
+import {theme} from './src/theme';
 
 const App = () => {
-  return (
-    <View>
-      <Text>App</Text>
-    </View>
-  );
+  return <NativeBaseProvider theme={theme} />;
 };
 
 export default App;
