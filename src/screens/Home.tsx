@@ -1,10 +1,18 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import {Box, HStack, Heading} from 'native-base';
+import {spaces} from '@/constants/spaces';
+import {BookCard} from '@/components';
 
 export const Home = () => {
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <Box flex={1}>
+      <HStack safeAreaTop px={spaces.screenWidth} bgColor="secondary">
+        <Heading color="white">Home</Heading>
+      </HStack>
+
+      <Box px="5" mt="4">
+        <BookCard />
+      </Box>
+    </Box>
   );
 };
