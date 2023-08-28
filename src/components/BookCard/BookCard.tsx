@@ -11,12 +11,23 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import {IconButton} from '../IconButton/IconButton';
 
-let isOnReadingList = false;
+export interface BookCardProps {
+  cover: string;
+  title: string;
+  author: string;
+  publishYear: number | string;
+  isOnReadingList: boolean;
+  isFavourite: boolean;
+}
 
-const cover =
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTNSyStf1DLYehyOLwoKXYpkqdKYVllekKBx9ZvBwY7mq7BAxIo-5Y4tMRiCOW_xCWX58&usqp=CAU';
-
-export const BookCard = () => {
+export const BookCard: React.FC<BookCardProps> = ({
+  author,
+  cover,
+  isFavourite,
+  isOnReadingList,
+  publishYear,
+  title,
+}) => {
   return (
     <Pressable shadow="2">
       <HStack
@@ -24,7 +35,12 @@ export const BookCard = () => {
         bgColor={'white'}
         borderRadius={'10'}
         overflow={'hidden'}>
-        <Image w={'100px'} h={'150px'} src={cover} alt="book cover" />
+        <Image
+          w={'100px'}
+          h={'150px'}
+          src={cover}
+          alt={`${title} - book cover`}
+        />
 
         <VStack p="3" flex={1}>
           <HStack alignItems={'center'}>
@@ -33,15 +49,15 @@ export const BookCard = () => {
               fontWeight={'semibold'}
               noOfLines={1}
               flex={1}>
-              Book Title
+              {title}
             </Text>
             <IconButton
-              icon={isOnReadingList ? 'heart' : 'heart-outline'}
+              icon={isFavourite ? 'heart' : 'heart-outline'}
               onPress={() => {}}
             />
           </HStack>
-          <Text>Author</Text>
-          <Text>Publish year</Text>
+          <Text>{author}</Text>
+          <Text>{publishYear}</Text>
 
           <Button
             mt={'auto'}
