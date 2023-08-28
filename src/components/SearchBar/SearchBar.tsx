@@ -1,16 +1,10 @@
 import {Input, Icon, IInputProps} from 'native-base';
-import {InterfaceIconProps} from 'native-base/lib/typescript/components/primitives/Icon/types';
-import React from 'react';
+import React, {useState} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
-type SearchBarProps = {
-  iconColor?: InterfaceIconProps['color'];
-} & IInputProps;
+export const SearchBar: React.FC<IInputProps> = ({...props}) => {
+  const [isOnFocus, setIsOnFocus] = useState(false);
 
-export const SearchBar: React.FC<SearchBarProps> = ({
-  iconColor = 'gray.400',
-  ...props
-}) => {
   return (
     <Input
       placeholder="Search People & Places"
@@ -19,6 +13,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       py="3"
       px="1"
       fontSize="14"
+      onFocus={() => setIsOnFocus(true)}
+      onBlur={() => setIsOnFocus(false)}
       _focus={{
         bgColor: 'white',
       }}
@@ -27,7 +23,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           m="2"
           ml="3"
           size="4"
-          color={iconColor}
+          color={isOnFocus ? 'gray.400' : 'white'}
           as={<FontAwesome name="search" />}
         />
       }
