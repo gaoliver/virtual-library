@@ -3,7 +3,6 @@ import {NativeBaseProvider} from 'native-base';
 import {theme} from './src/theme';
 import {persistor, store} from './src/Redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
-import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Home} from './src/screens/Home';
@@ -13,6 +12,7 @@ import {BookDetails} from './src/screens/BookDetails';
 import {Favourites} from './src/screens/Favourites';
 import {ReadingList} from './src/screens/ReadingList';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Provider} from 'react-redux';
 
 export type RootStackParamList = {
   Home: undefined;
