@@ -1,18 +1,17 @@
 import React from 'react';
-import {Box, HStack, Heading} from 'native-base';
-import {spaces} from '@/constants/spaces';
-import {BookCard} from '@/components';
+import {AspectRatio, Center, Image} from 'native-base';
+import {SearchBar} from '@/components';
 
 export const Home = () => {
-  return (
-    <Box flex={1}>
-      <HStack safeAreaTop px={spaces.screenWidth} bgColor="secondary">
-        <Heading color="white">Home</Heading>
-      </HStack>
+  const logo = require('@assets/images/Virtual_Library-logos_white.png');
 
-      <Box px="5" mt="4">
-        <BookCard />
-      </Box>
-    </Box>
+  return (
+    <Center safeArea flex={1} bgColor={'secondary'} px={'12'}>
+      <AspectRatio ratio={30 / 17} w={'200px'}>
+        <Image w="100%" h="100%" source={logo} alt="Virutal Library logo" />
+      </AspectRatio>
+
+      <SearchBar mt={'4'} iconColor={'white'} />
+    </Center>
   );
 };
