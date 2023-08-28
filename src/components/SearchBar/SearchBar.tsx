@@ -13,6 +13,7 @@ export const SearchBar: React.FC<IInputProps> = ({...props}) => {
       py="3"
       px="1"
       fontSize="14"
+      color={isOnFocus ? 'black' : 'white'}
       onFocus={() => setIsOnFocus(true)}
       onBlur={() => setIsOnFocus(false)}
       _focus={{

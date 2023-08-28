@@ -1,6 +1,7 @@
 import {
   Button,
   HStack,
+  IPressableProps,
   Icon,
   Image,
   Pressable,
@@ -11,14 +12,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import {IconButton} from '../IconButton/IconButton';
 
-export interface BookCardProps {
+export type BookCardProps = {
   cover: string;
   title: string;
   author: string;
   publishYear: number | string;
   isOnReadingList: boolean;
   isFavourite: boolean;
-}
+} & IPressableProps;
 
 export const BookCard: React.FC<BookCardProps> = ({
   author,
@@ -27,9 +28,10 @@ export const BookCard: React.FC<BookCardProps> = ({
   isOnReadingList,
   publishYear,
   title,
+  ...props
 }) => {
   return (
-    <Pressable shadow="2">
+    <Pressable shadow="2" {...props}>
       <HStack
         w="100%"
         bgColor={'white'}
