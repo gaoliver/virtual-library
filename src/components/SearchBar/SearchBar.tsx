@@ -1,9 +1,16 @@
-import {Input, Icon} from 'native-base';
-import {IInputComponentType} from 'native-base/lib/typescript/components/primitives/Input/types';
+import {Input, Icon, IInputProps} from 'native-base';
+import {InterfaceIconProps} from 'native-base/lib/typescript/components/primitives/Icon/types';
 import React from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
-export const SearchBar: IInputComponentType = ({...props}) => {
+type SearchBarProps = {
+  iconColor?: InterfaceIconProps['color'];
+} & IInputProps;
+
+export const SearchBar: React.FC<SearchBarProps> = ({
+  iconColor = 'gray.400',
+  ...props
+}) => {
   return (
     <Input
       placeholder="Search People & Places"
@@ -20,7 +27,7 @@ export const SearchBar: IInputComponentType = ({...props}) => {
           m="2"
           ml="3"
           size="4"
-          color="gray.400"
+          color={iconColor}
           as={<FontAwesome name="search" />}
         />
       }
