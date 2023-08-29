@@ -4,13 +4,16 @@ import bookReducer from './slices';
 import {configureStore} from '@reduxjs/toolkit';
 
 const persistSettings = {
-  key: 'root',
+  key: 'VIRTUAL_LIBRARY',
   storage: AsyncStorage,
-  whitelist: ['settings'],
 };
 
+const persistedReducer = persistReducer(persistSettings, bookReducer);
+
 export const store = configureStore({
-  reducer: persistReducer(persistSettings, bookReducer),
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({serializableCheck: false}),
 });
 
 export const persistor = persistStore(store);
