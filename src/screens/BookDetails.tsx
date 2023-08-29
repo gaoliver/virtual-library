@@ -10,7 +10,7 @@ import {
   StatusBar,
   Text,
 } from 'native-base';
-import {Header, IconButton} from '@/components';
+import {Header, IconButton, showToast} from '@/components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootMainStackParamList} from 'App';
 import {spaces} from '@/constants/spaces';
@@ -62,7 +62,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
       }
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      showToast('An error occurred. Please try again later.');
       setIsLoading(false);
     }
   }, [book]);

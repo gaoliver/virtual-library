@@ -68,7 +68,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
       setData(prevData => [...prevData, ...mapResponse(result?.docs)]);
       setIsLoading(false);
     } catch (error) {
-      showToast('A network error ocurred. Please, try again later.');
+      showToast('A network error occurred. Please try again later.');
       setIsLoading(false);
     }
   }, [offset]);
