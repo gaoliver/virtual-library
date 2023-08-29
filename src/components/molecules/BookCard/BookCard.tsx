@@ -1,20 +1,18 @@
 import {
-  Button,
   HStack,
   IPressableProps,
-  Icon,
   Image,
   Pressable,
   Text,
   VStack,
 } from 'native-base';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
-import {IconButton} from '../IconButton/IconButton';
 import {colors} from '@/theme/colors';
 import {BookProps} from '@/@types/models';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState, actions} from '@/Redux/slices';
+import {IconButton} from '@/components/atoms';
+import {AddRemoveList} from '@/components/featured/AddRemoveList';
 
 export type BookCardProps = {
   book: BookProps;
@@ -69,31 +67,11 @@ export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
           <Text>{author}</Text>
           <Text>{publishYear}</Text>
 
-          <Button
-            mt={'auto'}
-            py={'2'}
-            w="100%"
-            bgColor="secondary"
+          <AddRemoveList
+            isOnReadingList={isOnReadingList}
             onPress={handleSaveReadlingList}
-            _pressed={{style: {transform: [{scale: 0.98}]}}}
-            leftIcon={
-              <Icon
-                size={'5'}
-                as={
-                  <MaterialIcons
-                    name={
-                      !isOnReadingList
-                        ? 'file-document-outline'
-                        : 'file-document'
-                    }
-                  />
-                }
-              />
-            }>
-            <Text color={'white'}>{`${
-              isOnReadingList ? 'Remove from' : 'Add to'
-            } Reading List`}</Text>
-          </Button>
+            mt={'auto'}
+          />
         </VStack>
       </HStack>
     </Pressable>

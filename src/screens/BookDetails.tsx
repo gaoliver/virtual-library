@@ -2,6 +2,7 @@
 import React, {useMemo, useState} from 'react';
 import {
   Box,
+  Button,
   Center,
   HStack,
   Image,
@@ -10,12 +11,15 @@ import {
   StatusBar,
   Text,
 } from 'native-base';
-import {Header} from '@/components';
+import {Header, IconButton} from '@/components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootMainStackParamList} from 'App';
 import {spaces} from '@/constants/spaces';
 import LinearGradient from 'react-native-linear-gradient';
 import {BookPropsApi} from '@/@types/models';
+import {colors} from '@/theme/colors';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppState, actions} from '@/Redux/slices';
 
 type BookDetailsProps = NativeStackScreenProps<
   RootMainStackParamList,
@@ -24,8 +28,23 @@ type BookDetailsProps = NativeStackScreenProps<
 
 export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
   const {book} = route.params;
+  const {favourites, readingList} = useSelector((state: AppState) => state);
+
   const [bookDescription, setBookDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const isFavourite = !!favourites?.find(item => item.key === book.key);
+  const isOnReadingList = !!readingList?.find(item => item.key === book.key);
+
+  const handleSaveFavourite = () => {
+    dispatch(actions.saveFavourite(book));
+  };
+
+  const handleSaveReadlingList = () => {
+    dispatch(actions.saveToReadingList(book));
+  };
 
   useMemo(async () => {
     setIsLoading(true);
@@ -34,7 +53,9 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
       const response = await fetch(`https://openlibrary.org${book.key}.json`);
       const result: BookPropsApi = await response.json();
 
-      setBookDescription(result.description);
+      if (result.description) {
+        setBookDescription(result.description);
+      }
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -53,7 +74,15 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
   return (
     <Box flex={1}>
       <StatusBar barStyle={'light-content'} />
-      <Header hasGoBack bgColor={'transparent'} />
+      <Header hasGoBack bgColor={'transparent'}>
+        <HStack>
+          <IconButton
+            icon={isFavourite ? 'heart' : 'heart-outline'}
+            iconColor={isFavourite ? colors.warning : colors.black}
+            onPress={handleSaveFavourite}
+          />
+        </HStack>
+      </Header>
 
       <Box w="100%" h="auto" position={'absolute'} zIndex={-1}>
         <Image
