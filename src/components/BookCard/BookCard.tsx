@@ -26,7 +26,7 @@ export const BookCard: React.FC<BookCardProps> = ({
   ...props
 }) => {
   return (
-    <Pressable shadow="2" {...props}>
+    <Pressable shadow="2" bgColor={'white'} borderRadius={10} {...props}>
       <HStack
         w="100%"
         bgColor={'white'}
@@ -50,7 +50,7 @@ export const BookCard: React.FC<BookCardProps> = ({
             </Text>
             <IconButton
               icon={isFavourite ? 'heart' : 'heart-outline'}
-              iconColor={isFavourite ? colors.warning : 'initial'}
+              iconColor={isFavourite ? colors.warning : colors.black}
               onPress={() => {}}
             />
           </HStack>

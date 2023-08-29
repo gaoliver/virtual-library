@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {Pressable} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from 'App';
-import {Box, FlatList, HStack, Icon} from 'native-base';
+import {Box, FlatList, HStack, Icon, Spinner} from 'native-base';
 import {BookCard, SearchBar} from '@/components';
 import {spaces} from '@/constants/spaces';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,22 +14,31 @@ type SearchResultsProps = NativeStackScreenProps<
   'SearchResults'
 >;
 
+const Loading = ({isLoading}: {isLoading: boolean}) => {
+  if (isLoading) {
+    return <Spinner my={4} />;
+  }
+
+  return <></>;
+};
+
 export const SearchResults: React.FC<SearchResultsProps> = ({
   navigation,
   route,
 }) => {
   const {query} = route.params;
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(query);
   const [data, setData] = useState<BookProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
 
   const handlePressCard = (book: BookProps) => {
     navigation.navigate('BookDetails', {book});
   };
 
-  const mapResponse = (response: SearchResultsApi['docs']) => {
-    const mappedList: BookProps[] = response.map(book => ({
+  const mapResponse = (response: SearchResultsApi['docs']): BookProps[] => {
+    return response.map(book => ({
       key: book.key,
       title: book.title,
       author: book.author_name?.[0],
@@ -38,33 +47,33 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
       isFavourite: false,
       isOnReadingList: false,
     }));
-
-    setData(mappedList);
-    setIsLoading(false);
   };
 
-  const fetchResults = () => {
+  useMemo(async () => {
     setIsLoading(true);
 
-    fetch(
-      `https://openlibrary.org/search.json?q=${encodeURIComponent(
-        searchQuery,
-      )}&limit=5`,
-    )
-      .then(response => response.json())
-      .then(result => {
-        mapResponse(result?.docs);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setIsLoading(false);
-      });
-  };
+    try {
+      const response = await fetch(
+        `https://openlibrary.org/search.json?q=${encodeURIComponent(
+          searchQuery,
+        )}&limit=10&offset=${offset}`,
+      );
+      const result: SearchResultsApi = await response.json();
 
-  useEffect(() => {
-    setSearchQuery(query);
-    fetchResults();
-  }, [query]);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setData(prevData => [...prevData, ...mapResponse(result?.docs)]);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+    }
+  }, [offset]);
+
+  const handleNewSearch = () => {
+    setOffset(0);
+    setData([]);
+  };
 
   return (
     <Box flex={1}>
@@ -87,30 +96,25 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
           w={'300px'}
           value={searchQuery}
           onChangeText={setSearchQuery}
-          onBlur={fetchResults}
+          onBlur={handleNewSearch}
         />
       </HStack>
 
-      {!isLoading && (
-        <FlatList
-          pt={'1'}
-          px={spaces.screenWidth}
-          data={data}
-          renderItem={({item}) => (
-            <BookCard
-              my={'1'}
-              key={item.key}
-              cover={item.cover}
-              title={item.title}
-              author={item.author}
-              publishYear={item.publishYear}
-              isOnReadingList={item.isOnReadingList}
-              isFavourite={item.isFavourite}
-              onPress={() => handlePressCard(item)}
-            />
-          )}
-        />
-      )}
+      <FlatList
+        pt={'1'}
+        px={spaces.screenWidth}
+        data={data}
+        onEndReached={() => {
+          if (!isLoading && data.length) {
+            setOffset(offset + 10);
+          }
+        }}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={<Loading isLoading={isLoading} />}
+        renderItem={({item}) => (
+          <BookCard my={'1'} {...item} onPress={() => handlePressCard(item)} />
+        )}
+      />
     </Box>
   );
 };
