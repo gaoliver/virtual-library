@@ -5,7 +5,7 @@ interface ToastWarningProps {
   description: string;
 }
 
-const ToastModel: React.FC<ToastWarningProps> = ({description}) => (
+export const ToastModel: React.FC<ToastWarningProps> = ({description}) => (
   <Box w="100%" p="4" bgColor="warning" borderRadius={10}>
     <Text color="white" fontWeight={'semibold'}>
       {description}

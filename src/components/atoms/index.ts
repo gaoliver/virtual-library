@@ -1,3 +1,3 @@
-export * from './SearchBar/SearchBar';
+export * from './SearchBar';
 export * from './IconButton';
-export * from './ToastWarning/ToastWarning';
+export * from './ToastWarning';
