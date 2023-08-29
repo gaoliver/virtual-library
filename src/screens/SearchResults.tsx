@@ -6,6 +6,7 @@ import {Box, FlatList, Spinner} from 'native-base';
 import {BookCard, Header, SearchBar} from '@/components';
 import {spaces} from '@/constants/spaces';
 import {BookProps, SearchResultsApi} from '@/@types/models';
+import {api} from '@/Api';
 
 type SearchResultsStackProps = NativeStackScreenProps<
   RootStackParamList,
@@ -44,7 +45,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
       key: book.key,
       title: book.title,
       author: book.author_name?.[0],
-      cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
+      cover: `${process.env.BOOK_COVER_URL}${book.cover_i}.jpg`,
       publishYear: book.first_publish_year,
       isFavourite: false,
       isOnReadingList: false,
@@ -55,12 +56,12 @@ export const SearchResults: React.FC<SearchResultProps> = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `https://openlibrary.org/search.json?q=${encodeURIComponent(
+      const response = await api.get(
+        `search.json?q=${encodeURIComponent(
           searchQuery,
         )}&limit=10&offset=${offset}`,
       );
-      const result: SearchResultsApi = await response.json();
+      const result: SearchResultsApi = response.data;
 
       await new Promise(resolve => setTimeout(resolve, 1000));
 

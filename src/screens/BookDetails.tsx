@@ -20,6 +20,7 @@ import {colors} from '@/theme/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState, actions} from '@/Redux/slices';
 import {AddRemoveList} from '@/components/featured/AddRemoveList';
+import {api} from '@/Api';
 
 type BookDetailsProps = NativeStackScreenProps<
   RootMainStackParamList,
@@ -50,8 +51,8 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`https://openlibrary.org${book.key}.json`);
-      const result: BookPropsApi = await response.json();
+      const response = await api.get(`${book.key}.json`);
+      const result: BookPropsApi = response.data;
 
       if (result.description) {
         setBookDescription(result.description);
