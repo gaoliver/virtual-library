@@ -26,15 +26,15 @@ export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
 
   const dispatch = useDispatch();
 
-  const isFavourite = favourites.find(item => item.key === book.key);
-  const isOnReadingList = readingList.find(item => item.key === book.key);
+  const isFavourite = !!favourites?.find(item => item.key === book.key);
+  const isOnReadingList = !!readingList?.find(item => item.key === book.key);
 
   const handleSaveFavourite = () => {
     dispatch(actions.saveFavourite(book));
   };
 
   const handleSaveReadlingList = () => {
-    dispatch(actions.saveInReadingList(book));
+    dispatch(actions.saveToReadingList(book));
   };
 
   return (

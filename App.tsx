@@ -3,8 +3,10 @@ import {NativeBaseProvider} from 'native-base';
 import {theme} from './src/theme';
 import {persistor, store} from './src/Redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 import {Home} from './src/screens/Home';
 import {BookProps} from './src/@types/models';
 import {SearchResults} from './src/screens/SearchResults';
@@ -13,6 +15,7 @@ import {Favourites} from './src/screens/Favourites';
 import {ReadingList} from './src/screens/ReadingList';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Provider} from 'react-redux';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -21,7 +24,7 @@ export type RootStackParamList = {
 };
 
 export type RootBottomParamList = {
-  SearchNavigation: RootStackParamList;
+  SearchNavigator: NavigatorScreenParams<RootStackParamList>;
   Favourites: undefined;
   ReadingList: undefined;
 };
@@ -41,7 +44,7 @@ const Navigation = () => (
   <NavigationContainer>
     <Tab.Navigator screenOptions={{headerShown: false}}>
       <Tab.Screen
-        name="SearchNavigation"
+        name="SearchNavigator"
         options={{tabBarLabel: 'Home'}}
         component={SearchNavigation}
       />
