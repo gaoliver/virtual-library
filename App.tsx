@@ -106,7 +106,7 @@ const TabNavigation = () => (
           <Icon
             color={color}
             size={size}
-            as={<MaterialCommunityIcons name="file-document" />}
+            as={<MaterialCommunityIcons name="bookmark" />}
           />
         ),
       }}

@@ -26,7 +26,7 @@ export const AddRemoveList: React.FC<AddRemoveListProps> = ({
           as={
             <MaterialIcons
               name={
-                !isOnReadingList ? 'file-document-outline' : 'file-document'
+                !isOnReadingList ? 'bookmark-outline' : 'bookmark'
               }
             />
           }
