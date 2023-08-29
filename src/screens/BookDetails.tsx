@@ -20,6 +20,7 @@ import {BookPropsApi} from '@/@types/models';
 import {colors} from '@/theme/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState, actions} from '@/Redux/slices';
+import {AddRemoveList} from '@/components/featured/AddRemoveList';
 
 type BookDetailsProps = NativeStackScreenProps<
   RootMainStackParamList,
@@ -132,6 +133,12 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
             Book summary
           </Text>
           <Text mt="4">{bookDescription}</Text>
+
+          <AddRemoveList
+            isOnReadingList={isOnReadingList}
+            onPress={handleSaveReadlingList}
+            mt={'12'}
+          />
         </Box>
       </ScrollView>
     </Box>
