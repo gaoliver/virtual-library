@@ -2,17 +2,21 @@
 import {Pressable} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from 'App';
+import {AppNavigationProp, RootStackParamList} from 'App';
 import {Box, FlatList, HStack, Icon, Spinner} from 'native-base';
 import {BookCard, SearchBar} from '@/components';
 import {spaces} from '@/constants/spaces';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {BookProps, SearchResultsApi} from '@/@types/models';
 
-type SearchResultsProps = NativeStackScreenProps<
+type SearchResultsStackProps = NativeStackScreenProps<
   RootStackParamList,
   'SearchResults'
 >;
+
+type SearchResultProps = SearchResultsStackProps & {
+  navigation: AppNavigationProp;
+};
 
 const Loading = ({isLoading}: {isLoading: boolean}) => {
   if (isLoading) {
@@ -22,9 +26,9 @@ const Loading = ({isLoading}: {isLoading: boolean}) => {
   return <></>;
 };
 
-export const SearchResults: React.FC<SearchResultsProps> = ({
-  navigation,
+export const SearchResults: React.FC<SearchResultProps> = ({
   route,
+  navigation,
 }) => {
   const {query} = route.params;
 

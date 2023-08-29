@@ -1,21 +1,15 @@
 import React from 'react';
-import {RootMainStackParamList} from 'App';
 import {Box, Center, FlatList, Text} from 'native-base';
 import {BookCard, Header} from '@/components';
 import {spaces} from '@/constants/spaces';
 import {BookProps} from '@/@types/models';
 import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
-
-type NavigationProp = NativeStackNavigationProp<
-  RootMainStackParamList,
-  'TabNavigator'
->;
+import {AppNavigationProp} from 'App';
 
 export const ReadingList = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<AppNavigationProp>();
   const readingList = useSelector((state: AppState) => state.readingList);
 
   const handlePressCard = (book: BookProps) => {

@@ -15,7 +15,10 @@ import {Favourites} from './src/screens/Favourites';
 import {ReadingList} from './src/screens/ReadingList';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Provider} from 'react-redux';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -32,6 +35,11 @@ export type RootMainStackParamList = {
   TabNavigator: NavigatorScreenParams<RootBottomParamList>;
   BookDetails: {book: BookProps};
 };
+
+export type AppNavigationProp = NativeStackNavigationProp<
+  RootMainStackParamList,
+  'TabNavigator'
+>;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootBottomParamList>();

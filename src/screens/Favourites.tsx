@@ -6,16 +6,10 @@ import {BookProps} from '@/@types/models';
 import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootMainStackParamList} from 'App';
-
-type NavigationProp = NativeStackNavigationProp<
-  RootMainStackParamList,
-  'TabNavigator'
->;
+import {AppNavigationProp} from 'App';
 
 export const Favourites = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<AppNavigationProp>();
   const favourites = useSelector((state: AppState) => state.favourites);
 
   const handlePressCard = (book: BookProps) => {
