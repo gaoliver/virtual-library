@@ -57,9 +57,12 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
       const response = await api.get(`${book.key}.json`);
       const result: BookPropsApi = response.data;
 
-      if (result.description) {
+      if (typeof result.description === 'string' && !!result.description) {
         setBookDescription(result.description);
+      } else if ((result.description as any)?.value) {
+        setBookDescription((result.description as any).value);
       }
+
       setIsLoading(false);
     } catch (error) {
       showToast('An error occurred. Please try again later.');
