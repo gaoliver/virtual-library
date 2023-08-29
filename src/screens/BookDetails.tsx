@@ -17,11 +17,12 @@ import {spaces} from '@/constants/spaces';
 import LinearGradient from 'react-native-linear-gradient';
 import {BookPropsApi} from '@/@types/models';
 import {colors} from '@/theme/colors';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppState, actions} from '@/Redux/slices';
+import {useDispatch} from 'react-redux';
+import {actions} from '@/Redux/slices';
 import {AddRemoveList} from '@/components/featured/AddRemoveList';
 import {api} from '@/Api';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {store} from '@/Redux/store';
 
 type BookDetailsProps = NativeStackScreenProps<
   RootMainStackParamList,
@@ -30,7 +31,7 @@ type BookDetailsProps = NativeStackScreenProps<
 
 export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
   const {book} = route.params;
-  const {favourites, readingList} = useSelector((state: AppState) => state);
+  const {favourites, readingList} = store.getState();
   const {bottom} = useSafeAreaInsets();
 
   const [bookDescription, setBookDescription] = useState('');

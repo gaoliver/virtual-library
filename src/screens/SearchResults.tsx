@@ -3,7 +3,7 @@ import React, {useMemo, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppNavigationProp, RootStackParamList} from 'App';
 import {Box, FlatList, Spinner} from 'native-base';
-import {BookCard, Header, SearchBar} from '@/components';
+import {BookCard, Header, SearchBar, showToast} from '@/components';
 import {spaces} from '@/constants/spaces';
 import {BookProps, SearchResultsApi} from '@/@types/models';
 import {api} from '@/Api';
@@ -68,7 +68,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
       setData(prevData => [...prevData, ...mapResponse(result?.docs)]);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      showToast('A network error ocurred. Please, try again later.');
       setIsLoading(false);
     }
   }, [offset]);
