@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Pressable} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppNavigationProp, RootStackParamList} from 'App';
-import {Box, FlatList, HStack, Icon, Spinner} from 'native-base';
-import {BookCard, SearchBar} from '@/components';
+import {Box, FlatList, Spinner} from 'native-base';
+import {BookCard, Header, SearchBar} from '@/components';
 import {spaces} from '@/constants/spaces';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {BookProps, SearchResultsApi} from '@/@types/models';
 
 type SearchResultsStackProps = NativeStackScreenProps<
@@ -81,28 +79,14 @@ export const SearchResults: React.FC<SearchResultProps> = ({
 
   return (
     <Box flex={1}>
-      <HStack
-        safeAreaTop
-        bgColor={'secondary'}
-        pb={'2'}
-        px={spaces.screenWidth}
-        w="100%"
-        justifyContent={'space-between'}
-        alignItems={'center'}>
-        <Pressable>
-          <Icon
-            size={'6'}
-            color="white"
-            as={<MaterialIcons name="arrow-back" />}
-          />
-        </Pressable>
+      <Header hasGoBack>
         <SearchBar
           w={'300px'}
           value={searchQuery}
           onChangeText={setSearchQuery}
           onBlur={handleNewSearch}
         />
-      </HStack>
+      </Header>
 
       <FlatList
         pt={'1'}
