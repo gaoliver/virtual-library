@@ -21,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppState, actions} from '@/Redux/slices';
 import {AddRemoveList} from '@/components/featured/AddRemoveList';
 import {api} from '@/Api';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type BookDetailsProps = NativeStackScreenProps<
   RootMainStackParamList,
@@ -30,6 +31,7 @@ type BookDetailsProps = NativeStackScreenProps<
 export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
   const {book} = route.params;
   const {favourites, readingList} = useSelector((state: AppState) => state);
+  const {bottom} = useSafeAreaInsets();
 
   const [bookDescription, setBookDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +68,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
 
   if (isLoading) {
     return (
-      <Center flex={1} safeArea>
+      <Center flex={1}>
         <Spinner />
       </Center>
     );
@@ -138,6 +140,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
             isOnReadingList={isOnReadingList}
             onPress={handleSaveReadlingList}
             mt={'12'}
+            mb={bottom}
           />
         </Box>
       </ScrollView>
