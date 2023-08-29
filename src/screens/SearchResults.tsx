@@ -71,8 +71,8 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
   }, [offset]);
 
   const handleNewSearch = () => {
-    setOffset(0);
     setData([]);
+    setOffset(0);
   };
 
   return (
@@ -112,7 +112,11 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
         onEndReachedThreshold={0.5}
         ListFooterComponent={<Loading isLoading={isLoading} />}
         renderItem={({item}) => (
-          <BookCard my={'1'} {...item} onPress={() => handlePressCard(item)} />
+          <BookCard
+            my={'1'}
+            book={item}
+            onPress={() => handlePressCard(item)}
+          />
         )}
       />
     </Box>

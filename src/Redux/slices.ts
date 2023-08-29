@@ -1,23 +1,21 @@
-import {BookProps} from '../@types/models';
-import {ActionTypes, AppActions} from './actions';
-interface InitialStateModel {
-  isLoading: boolean;
+import {BookProps} from '@/@types/models';
+import {createSlice} from '@reduxjs/toolkit';
+
+export interface AppState {
   favourites: BookProps[];
   readingList: BookProps[];
 }
 
-const initialState: InitialStateModel = {
-  isLoading: false,
+const initialState: AppState = {
   favourites: [],
   readingList: [],
 };
 
-export const appReducer = (
-  state: InitialStateModel = initialState,
-  action: AppActions,
-) => {
-  switch (action.type) {
-    case ActionTypes.TOGGLE_FAVOURITE:
+const booksSlice = createSlice({
+  name: 'books',
+  initialState,
+  reducers: {
+    saveFavourite: (state, action) => {
       if (!state.favourites.find(book => book.key === action.payload.key)) {
         return {
           ...state,
@@ -35,8 +33,8 @@ export const appReducer = (
           favourites: [...state.favourites],
         };
       }
-
-    case ActionTypes.TOGGLE_READING_LIST:
+    },
+    saveInReadingList: (state, action) => {
       if (!state.readingList.find(book => book.key === action.payload.key)) {
         return {
           ...state,
@@ -54,8 +52,10 @@ export const appReducer = (
           readingList: [...state.readingList],
         };
       }
+    },
+  },
+});
 
-    default:
-      return state;
-  }
-};
+export const actions = booksSlice.actions;
+
+export default booksSlice.reducer;

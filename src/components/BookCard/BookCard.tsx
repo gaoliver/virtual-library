@@ -13,18 +13,30 @@ import React from 'react';
 import {IconButton} from '../IconButton/IconButton';
 import {colors} from '@/theme/colors';
 import {BookProps} from '@/@types/models';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppState, actions} from '@/Redux/slices';
 
-export type BookCardProps = BookProps & IPressableProps;
+export type BookCardProps = {
+  book: BookProps;
+} & IPressableProps;
 
-export const BookCard: React.FC<BookCardProps> = ({
-  author,
-  cover,
-  isFavourite,
-  isOnReadingList,
-  publishYear,
-  title,
-  ...props
-}) => {
+export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
+  const {author, cover, publishYear, title} = book;
+  const {favourites, readingList} = useSelector((state: AppState) => state);
+
+  const dispatch = useDispatch();
+
+  const isFavourite = favourites.find(item => item.key === book.key);
+  const isOnReadingList = readingList.find(item => item.key === book.key);
+
+  const handleSaveFavourite = () => {
+    dispatch(actions.saveFavourite(book));
+  };
+
+  const handleSaveReadlingList = () => {
+    dispatch(actions.saveInReadingList(book));
+  };
+
   return (
     <Pressable shadow="2" bgColor={'white'} borderRadius={10} {...props}>
       <HStack
@@ -51,7 +63,7 @@ export const BookCard: React.FC<BookCardProps> = ({
             <IconButton
               icon={isFavourite ? 'heart' : 'heart-outline'}
               iconColor={isFavourite ? colors.warning : colors.black}
-              onPress={() => {}}
+              onPress={handleSaveFavourite}
             />
           </HStack>
           <Text>{author}</Text>
@@ -62,6 +74,7 @@ export const BookCard: React.FC<BookCardProps> = ({
             py={'2'}
             w="100%"
             bgColor="secondary"
+            onPress={handleSaveReadlingList}
             _pressed={{style: {transform: [{scale: 0.98}]}}}
             leftIcon={
               <Icon
