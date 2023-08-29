@@ -4,7 +4,11 @@ module.exports = {
   //   '<rootDir>/node_modules/(redux-persist|react-native-linear-gradient|react-native-vector-icons|react-navigation|@react-navigation/.*|@unimodules/.*|native-base)',
   // ],
   // transform: {
-  //   '\\.(js|jsx|ts|tsx)$': 'ts-jest',
+  //   '^.+\\.tsx?$': 'ts-jest',
   // },
-  // moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  transform: {
+    '^.+\\.[jt]sx?$': 'babel-jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 };
