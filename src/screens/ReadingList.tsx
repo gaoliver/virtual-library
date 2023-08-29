@@ -1,5 +1,5 @@
 import React from 'react';
-import {RootBottomParamList} from 'App';
+import {RootMainStackParamList} from 'App';
 import {Box, Center, FlatList, Text} from 'native-base';
 import {BookCard, Header} from '@/components';
 import {spaces} from '@/constants/spaces';
@@ -7,20 +7,19 @@ import {BookProps} from '@/@types/models';
 import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 
-type NavigationProps = NativeStackNavigationProp<
-  RootBottomParamList,
-  'Favourites'
+type NavigationProp = NativeStackNavigationProp<
+  RootMainStackParamList,
+  'TabNavigator'
 >;
 
-export const ReadingList = ({navigation}: {navigation: NavigationProps}) => {
+export const ReadingList = () => {
+  const navigation = useNavigation<NavigationProp>();
   const readingList = useSelector((state: AppState) => state.readingList);
 
   const handlePressCard = (book: BookProps) => {
-    navigation.navigate('SearchNavigator', {
-      screen: 'BookDetails',
-      params: {book},
-    });
+    navigation.navigate('BookDetails', {book});
   };
 
   return (

@@ -1,26 +1,25 @@
 import React from 'react';
-import {RootBottomParamList} from 'App';
 import {Box, Center, FlatList, Text} from 'native-base';
 import {BookCard, Header} from '@/components';
 import {spaces} from '@/constants/spaces';
 import {BookProps} from '@/@types/models';
 import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
+import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootMainStackParamList} from 'App';
 
-type NavigationProps = NativeStackNavigationProp<
-  RootBottomParamList,
-  'Favourites'
+type NavigationProp = NativeStackNavigationProp<
+  RootMainStackParamList,
+  'TabNavigator'
 >;
 
-export const Favourites = ({navigation}: {navigation: NavigationProps}) => {
+export const Favourites = () => {
+  const navigation = useNavigation<NavigationProp>();
   const favourites = useSelector((state: AppState) => state.favourites);
 
   const handlePressCard = (book: BookProps) => {
-    navigation.navigate('SearchNavigator', {
-      screen: 'BookDetails',
-      params: {book},
-    });
+    navigation.navigate('BookDetails', {book});
   };
 
   return (

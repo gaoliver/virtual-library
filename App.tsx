@@ -20,7 +20,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 export type RootStackParamList = {
   Home: undefined;
   SearchResults: {query: string};
-  BookDetails: {book: BookProps};
 };
 
 export type RootBottomParamList = {
@@ -29,32 +28,44 @@ export type RootBottomParamList = {
   ReadingList: undefined;
 };
 
+export type RootMainStackParamList = {
+  TabNavigator: NavigatorScreenParams<RootBottomParamList>;
+  BookDetails: {book: BookProps};
+};
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootBottomParamList>();
+const MainStack = createNativeStackNavigator<RootMainStackParamList>();
 
 const SearchNavigation = () => (
   <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
     <Stack.Screen name="Home" component={Home} />
     <Stack.Screen name="SearchResults" component={SearchResults} />
-    <Stack.Screen name="BookDetails" component={BookDetails} />
   </Stack.Navigator>
+);
+
+const TabNavigation = () => (
+  <Tab.Navigator screenOptions={{headerShown: false}}>
+    <Tab.Screen
+      name="SearchNavigator"
+      options={{tabBarLabel: 'Home'}}
+      component={SearchNavigation}
+    />
+    <Tab.Screen name="Favourites" component={Favourites} />
+    <Tab.Screen
+      name="ReadingList"
+      options={{tabBarLabel: 'Reading List'}}
+      component={ReadingList}
+    />
+  </Tab.Navigator>
 );
 
 const Navigation = () => (
   <NavigationContainer>
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen
-        name="SearchNavigator"
-        options={{tabBarLabel: 'Home'}}
-        component={SearchNavigation}
-      />
-      <Tab.Screen name="Favourites" component={Favourites} />
-      <Tab.Screen
-        name="ReadingList"
-        options={{tabBarLabel: 'Reading List'}}
-        component={ReadingList}
-      />
-    </Tab.Navigator>
+    <MainStack.Navigator screenOptions={{headerShown: false}}>
+      <MainStack.Screen name="TabNavigator" component={TabNavigation} />
+      <MainStack.Screen name="BookDetails" component={BookDetails} />
+    </MainStack.Navigator>
   </NavigationContainer>
 );
 
