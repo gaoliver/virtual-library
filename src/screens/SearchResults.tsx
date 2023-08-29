@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {Pressable} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -6,50 +7,7 @@ import {Box, FlatList, HStack, Icon} from 'native-base';
 import {BookCard, SearchBar} from '@/components';
 import {spaces} from '@/constants/spaces';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {BookProps} from '@/@types/models';
-
-const data = [
-  {
-    id: '1',
-    author: 'C. S. Lewis',
-    cover:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTNSyStf1DLYehyOLwoKXYpkqdKYVllekKBx9ZvBwY7mq7BAxIo-5Y4tMRiCOW_xCWX58&usqp=CAU',
-    isFavourite: false,
-    isOnReadingList: false,
-    publishYear: 1960,
-    title: 'As Crônicas de Nárnia',
-  },
-  {
-    id: '2',
-    author: 'C. S. Lewis',
-    cover:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTNSyStf1DLYehyOLwoKXYpkqdKYVllekKBx9ZvBwY7mq7BAxIo-5Y4tMRiCOW_xCWX58&usqp=CAU',
-    isFavourite: false,
-    isOnReadingList: false,
-    publishYear: 1960,
-    title: 'As Crônicas de Nárnia',
-  },
-  {
-    id: '3',
-    author: 'C. S. Lewis',
-    cover:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTNSyStf1DLYehyOLwoKXYpkqdKYVllekKBx9ZvBwY7mq7BAxIo-5Y4tMRiCOW_xCWX58&usqp=CAU',
-    isFavourite: false,
-    isOnReadingList: false,
-    publishYear: 1960,
-    title: 'As Crônicas de Nárnia',
-  },
-  {
-    id: '4',
-    author: 'C. S. Lewis',
-    cover:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTNSyStf1DLYehyOLwoKXYpkqdKYVllekKBx9ZvBwY7mq7BAxIo-5Y4tMRiCOW_xCWX58&usqp=CAU',
-    isFavourite: false,
-    isOnReadingList: false,
-    publishYear: 1960,
-    title: 'As Crônicas de Nárnia',
-  },
-];
+import {BookProps, SearchResultsApi} from '@/@types/models';
 
 type SearchResultsProps = NativeStackScreenProps<
   RootStackParamList,
@@ -63,13 +21,49 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
   const {query} = route.params;
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [data, setData] = useState<BookProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePressCard = (book: BookProps) => {
     navigation.navigate('BookDetails', {book});
   };
 
+  const mapResponse = (response: SearchResultsApi['docs']) => {
+    const mappedList: BookProps[] = response.map(book => ({
+      key: book.key,
+      title: book.title,
+      author: book.author_name?.[0],
+      cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
+      publishYear: book.first_publish_year,
+      isFavourite: false,
+      isOnReadingList: false,
+    }));
+
+    setData(mappedList);
+    setIsLoading(false);
+  };
+
+  const fetchResults = () => {
+    setIsLoading(true);
+
+    fetch(
+      `https://openlibrary.org/search.json?q=${encodeURIComponent(
+        searchQuery,
+      )}&limit=5`,
+    )
+      .then(response => response.json())
+      .then(result => {
+        mapResponse(result?.docs);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
+      });
+  };
+
   useEffect(() => {
     setSearchQuery(query);
+    fetchResults();
   }, [query]);
 
   return (
@@ -93,27 +87,30 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
           w={'300px'}
           value={searchQuery}
           onChangeText={setSearchQuery}
+          onBlur={fetchResults}
         />
       </HStack>
 
-      <FlatList
-        pt={'1'}
-        px={spaces.screenWidth}
-        data={data}
-        renderItem={({item}) => (
-          <BookCard
-            my={'1'}
-            key={item.id}
-            cover={item.cover}
-            title={item.title}
-            author={item.author}
-            publishYear={item.publishYear}
-            isOnReadingList={item.isOnReadingList}
-            isFavourite={item.isFavourite}
-            onPress={() => handlePressCard({id: item.id})}
-          />
-        )}
-      />
+      {!isLoading && (
+        <FlatList
+          pt={'1'}
+          px={spaces.screenWidth}
+          data={data}
+          renderItem={({item}) => (
+            <BookCard
+              my={'1'}
+              key={item.key}
+              cover={item.cover}
+              title={item.title}
+              author={item.author}
+              publishYear={item.publishYear}
+              isOnReadingList={item.isOnReadingList}
+              isFavourite={item.isFavourite}
+              onPress={() => handlePressCard(item)}
+            />
+          )}
+        />
+      )}
     </Box>
   );
 };

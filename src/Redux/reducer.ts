@@ -4,14 +4,12 @@ interface InitialStateModel {
   isLoading: boolean;
   favourites: BookProps[];
   readingList: BookProps[];
-  searchResults: BookProps[];
 }
 
 const initialState: InitialStateModel = {
   isLoading: false,
   favourites: [],
   readingList: [],
-  searchResults: [],
 };
 
 export const appReducer = (
@@ -20,14 +18,14 @@ export const appReducer = (
 ) => {
   switch (action.type) {
     case ActionTypes.TOGGLE_FAVOURITE:
-      if (!state.favourites.find(book => book.id === action.payload.id)) {
+      if (!state.favourites.find(book => book.key === action.payload.key)) {
         return {
           ...state,
           favourites: [...state.favourites, action.payload],
         };
       } else {
         const bookIndex = state.favourites.findIndex(
-          book => book.id === action.payload.id,
+          book => book.key === action.payload.key,
         );
 
         state.favourites.splice(bookIndex, 1);
@@ -39,14 +37,14 @@ export const appReducer = (
       }
 
     case ActionTypes.TOGGLE_READING_LIST:
-      if (!state.readingList.find(book => book.id === action.payload.id)) {
+      if (!state.readingList.find(book => book.key === action.payload.key)) {
         return {
           ...state,
           readingList: [...state.readingList, action.payload],
         };
       } else {
         const bookIndex = state.readingList.findIndex(
-          book => book.id === action.payload.id,
+          book => book.key === action.payload.key,
         );
 
         state.readingList.splice(bookIndex, 1);
@@ -56,12 +54,6 @@ export const appReducer = (
           readingList: [...state.readingList],
         };
       }
-
-    case ActionTypes.SAVE_SEARCH_RESULTS:
-      return {
-        ...state,
-        searchResults: action.payload,
-      };
 
     default:
       return state;

@@ -16,9 +16,8 @@ export const IconButton: React.FC<IconButtonProps> = ({
   return (
     <Pressable
       onPress={onPress}
-      color={iconColor}
       _pressed={{style: {transform: [{scale: 0.9}]}}}>
-      <Icon size="5" as={<MaterialIcons name={icon} />} />
+      <Icon size="5" color={iconColor} as={<MaterialIcons name={icon} />} />
     </Pressable>
   );
 };

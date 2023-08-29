@@ -4,7 +4,6 @@ import {BookProps} from '../@types/models';
 export enum ActionTypes {
   TOGGLE_FAVOURITE = 'TOGGLE_FAVOURITE',
   TOGGLE_READING_LIST = 'TOGGLE_READING_LIST',
-  SAVE_SEARCH_RESULTS = 'MINIMIZE_WINDOWS',
 }
 
 export interface ToggleFavourite {
@@ -17,12 +16,7 @@ export interface ToggleReadingList {
   payload: BookProps;
 }
 
-export interface SaveSearchResult {
-  readonly type: ActionTypes.SAVE_SEARCH_RESULTS;
-  payload: BookProps[];
-}
-
-export type AppActions = ToggleFavourite | ToggleReadingList | SaveSearchResult;
+export type AppActions = ToggleFavourite | ToggleReadingList;
 
 export const toggleFavourite = (book: BookProps) => {
   return async (dispatch: Dispatch<AppActions>) => {
@@ -38,15 +32,6 @@ export const toggleReadingList = (book: BookProps) => {
     dispatch({
       type: ActionTypes.TOGGLE_READING_LIST,
       payload: book,
-    });
-  };
-};
-
-export const saveSearchResults = (books: BookProps[]) => {
-  return async (dispatch: Dispatch<AppActions>) => {
-    dispatch({
-      type: ActionTypes.SAVE_SEARCH_RESULTS,
-      payload: books,
     });
   };
 };

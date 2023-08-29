@@ -11,15 +11,10 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import {IconButton} from '../IconButton/IconButton';
+import {colors} from '@/theme/colors';
+import {BookProps} from '@/@types/models';
 
-export type BookCardProps = {
-  cover: string;
-  title: string;
-  author: string;
-  publishYear: number | string;
-  isOnReadingList: boolean;
-  isFavourite: boolean;
-} & IPressableProps;
+export type BookCardProps = BookProps & IPressableProps;
 
 export const BookCard: React.FC<BookCardProps> = ({
   author,
@@ -55,6 +50,7 @@ export const BookCard: React.FC<BookCardProps> = ({
             </Text>
             <IconButton
               icon={isFavourite ? 'heart' : 'heart-outline'}
+              iconColor={isFavourite ? colors.warning : 'initial'}
               onPress={() => {}}
             />
           </HStack>
