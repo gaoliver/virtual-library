@@ -1,15 +1,21 @@
 import {spaces} from '@/constants/spaces';
 import {useNavigation} from '@react-navigation/native';
 import {Center, HStack, Heading, Icon, Pressable} from 'native-base';
+import {InterfaceHStackProps} from 'native-base/lib/typescript/components/primitives/Stack/HStack';
 import React, {PropsWithChildren} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-interface HeaderProps extends PropsWithChildren {
+type HeaderProps = PropsWithChildren & {
   title?: string;
   hasGoBack?: boolean;
-}
+} & InterfaceHStackProps;
 
-export const Header: React.FC<HeaderProps> = ({hasGoBack, title, children}) => {
+export const Header: React.FC<HeaderProps> = ({
+  hasGoBack,
+  title,
+  children,
+  ...props
+}) => {
   const navigation = useNavigation();
 
   const handleGoBack = () => {
@@ -24,7 +30,8 @@ export const Header: React.FC<HeaderProps> = ({hasGoBack, title, children}) => {
       px={spaces.screenWidth}
       w="100%"
       justifyContent={'space-between'}
-      alignItems={'center'}>
+      alignItems={'center'}
+      {...props}>
       {hasGoBack && (
         <Pressable onPress={handleGoBack}>
           <Icon

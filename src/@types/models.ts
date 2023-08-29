@@ -71,8 +71,43 @@ export type SearchResultsApi = {
     ddc_sort: string;
   }[];
   num_found: number;
-  q: 'narnia';
+  q: string;
   offset: null;
+};
+
+export type BookPropsApi = {
+  title: string;
+  key: string;
+  authors: [
+    {
+      author: {
+        key: string;
+      };
+      type: {
+        key: string;
+      };
+    },
+  ];
+  type: {
+    key: string;
+  };
+  description: string;
+  covers: number[];
+  subject_places: string[];
+  subjects: string[];
+  subject_people: string[];
+  subject_times: string[];
+  location: string;
+  latest_revision: number;
+  revision: number;
+  created: {
+    type: string;
+    value: string;
+  };
+  last_modified: {
+    type: string;
+    value: string;
+  };
 };
 
 export type BookProps = {
@@ -81,6 +116,5 @@ export type BookProps = {
   title: string;
   author: string;
   publishYear: number | string;
-  isOnReadingList: boolean;
-  isFavourite: boolean;
+  description?: string;
 };
