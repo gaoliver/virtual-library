@@ -16,41 +16,25 @@ const booksSlice = createSlice({
   initialState,
   reducers: {
     saveFavourite: (state, action) => {
-      if (!state.favourites.find(book => book.key === action.payload.key)) {
-        return {
-          ...state,
-          favourites: [...state.favourites, action.payload],
-        };
+      const existingIndex = state.favourites.findIndex(
+        book => book.key === action.payload.key,
+      );
+
+      if (existingIndex !== -1) {
+        state.favourites.splice(existingIndex, 1);
       } else {
-        const bookIndex = state.favourites.findIndex(
-          book => book.key === action.payload.key,
-        );
-
-        state.favourites.splice(bookIndex, 1);
-
-        return {
-          ...state,
-          favourites: [...state.favourites],
-        };
+        state.favourites.push(action.payload);
       }
     },
-    saveInReadingList: (state, action) => {
-      if (!state.readingList.find(book => book.key === action.payload.key)) {
-        return {
-          ...state,
-          readingList: [...state.readingList, action.payload],
-        };
+    saveToReadingList: (state, action) => {
+      const existingIndex = state.readingList.findIndex(
+        book => book.key === action.payload.key,
+      );
+
+      if (existingIndex !== -1) {
+        state.readingList.splice(existingIndex, 1);
       } else {
-        const bookIndex = state.readingList.findIndex(
-          book => book.key === action.payload.key,
-        );
-
-        state.readingList.splice(bookIndex, 1);
-
-        return {
-          ...state,
-          readingList: [...state.readingList],
-        };
+        state.readingList.push(action.payload);
       }
     },
   },

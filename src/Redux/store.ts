@@ -9,10 +9,8 @@ const persistSettings = {
   whitelist: ['settings'],
 };
 
-const store = configureStore({
+export const store = configureStore({
   reducer: persistReducer(persistSettings, bookReducer),
 });
 
-const persistor = persistStore(store);
-
-export {store, persistor};
+export const persistor = persistStore(store);
