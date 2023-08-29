@@ -19,7 +19,7 @@ import {BookPropsApi} from '@/@types/models';
 import {colors} from '@/theme/colors';
 import {useDispatch} from 'react-redux';
 import {actions} from '@/Redux/slices';
-import {AddRemoveList} from '@/components/featured/AddRemoveList';
+import {AddRemoveList} from '@/components/featured/AddRemoveList/AddRemoveList';
 import {api} from '@/Api';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {store} from '@/Redux/store';

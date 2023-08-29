@@ -12,7 +12,7 @@ import {BookProps} from '@/@types/models';
 import {useDispatch} from 'react-redux';
 import {actions} from '@/Redux/slices';
 import {IconButton} from '@/components/atoms';
-import {AddRemoveList} from '@/components/featured/AddRemoveList';
+import {AddRemoveList} from '@/components/featured/AddRemoveList/AddRemoveList';
 import {store} from '@/Redux/store';
 
 export type BookCardProps = {
