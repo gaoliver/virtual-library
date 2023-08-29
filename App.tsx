@@ -1,5 +1,6 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import {NativeBaseProvider} from 'native-base';
+import {Icon, NativeBaseProvider} from 'native-base';
 import {theme} from './src/theme';
 import {persistor, store} from './src/Redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -13,12 +14,17 @@ import {SearchResults} from './src/screens/SearchResults';
 import {BookDetails} from './src/screens/BookDetails';
 import {Favourites} from './src/screens/Favourites';
 import {ReadingList} from './src/screens/ReadingList';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import {Provider} from 'react-redux';
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {colors} from '@/theme/colors';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -41,6 +47,14 @@ export type AppNavigationProp = NativeStackNavigationProp<
   'TabNavigator'
 >;
 
+const TabStyle: BottomTabNavigationOptions = {
+  tabBarStyle: {
+    backgroundColor: colors.secondary,
+  },
+  tabBarInactiveTintColor: colors.white,
+  tabBarActiveTintColor: colors.primary,
+};
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootBottomParamList>();
 const MainStack = createNativeStackNavigator<RootMainStackParamList>();
@@ -56,13 +70,46 @@ const TabNavigation = () => (
   <Tab.Navigator screenOptions={{headerShown: false}}>
     <Tab.Screen
       name="SearchNavigator"
-      options={{tabBarLabel: 'Home'}}
+      options={{
+        ...TabStyle,
+        tabBarLabel: 'Home',
+        tabBarIcon: ({color, size}) => (
+          <Icon
+            color={color}
+            size={size}
+            as={<MaterialCommunityIcons name="home" />}
+          />
+        ),
+      }}
       component={SearchNavigation}
     />
-    <Tab.Screen name="Favourites" component={Favourites} />
+    <Tab.Screen
+      name="Favourites"
+      component={Favourites}
+      options={{
+        ...TabStyle,
+        tabBarIcon: ({color, size}) => (
+          <Icon
+            color={color}
+            size={size}
+            as={<MaterialCommunityIcons name="heart" />}
+          />
+        ),
+      }}
+    />
     <Tab.Screen
       name="ReadingList"
-      options={{tabBarLabel: 'Reading List'}}
+      options={{
+        tabBarLabel: 'Reading List',
+        ...TabStyle,
+        tabBarIcon: ({color, size}) => (
+          <Icon
+            color={color}
+            size={size}
+            as={<MaterialCommunityIcons name="file-document" />}
+          />
+        ),
+      }}
       component={ReadingList}
     />
   </Tab.Navigator>
