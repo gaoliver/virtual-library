@@ -3,55 +3,34 @@ import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import {SearchResults} from '../SearchResults';
 import {NativeBaseProvider} from 'native-base';
 import {api} from '@/Api';
+import {mockBookList} from './@mocks/mockBookList';
+import {useNavigation} from '@react-navigation/native';
 
 const inset = {
   frame: {x: 0, y: 0, width: 0, height: 0},
   insets: {top: 0, left: 0, right: 0, bottom: 0},
 };
 
-// Mock the api module
 jest.mock('@/Api');
 const mockedApi = api as jest.Mocked<typeof api>;
 
 const mockApiResponse = {
   data: {
-    docs: [
-      {
-        key: '1',
-        title: 'Book 1',
-        author_name: ['Author 1'],
-        cover_i: 1,
-        first_publish_year: 1998,
-      },
-      {
-        key: '2',
-        title: 'Book 2',
-        author_name: ['Author 2'],
-        cover_i: 2,
-        first_publish_year: 2002,
-      },
-    ],
+    docs: mockBookList,
   },
 };
 
-describe('SearchResults', () => {
+const navigation = useNavigation();
+
+describe('SearchResults screen', () => {
   it('Renders error', async () => {
-    const {findByText, findByTestId} = render(
+    const {findByText} = render(
       <NativeBaseProvider initialWindowMetrics={inset}>
         <SearchResults
           route={{params: {query: 'example'}}}
-          navigation={{navigate: jest.fn()}}
+          navigation={navigation}
         />
       </NativeBaseProvider>,
-    );
-
-    const searchBar = await findByTestId('search-bar');
-    fireEvent.changeText(searchBar, 'example');
-
-    fireEvent(searchBar, 'blur');
-
-    expect(mockedApi.get).toHaveBeenCalledWith(
-      'search.json?q=example&limit=10&offset=0',
     );
 
     expect(
@@ -65,47 +44,52 @@ describe('SearchResults', () => {
       <NativeBaseProvider initialWindowMetrics={inset}>
         <SearchResults
           route={{params: {query: 'example'}}}
-          navigation={{navigate: jest.fn()}}
+          navigation={navigation}
         />
       </NativeBaseProvider>,
     );
 
-    const searchBar = await findByTestId('search-bar');
-    fireEvent.changeText(searchBar, 'example');
-
-    fireEvent(searchBar, 'blur');
-
-    expect(mockedApi.get).toHaveBeenCalledWith(
-      'search.json?q=example&limit=10&offset=0',
-    );
-
     expect(await findByTestId('loading-spinner')).toBeTruthy();
   });
-  it('Renders result', async () => {
+  it('Renders searchbar', async () => {
     mockedApi.get.mockResolvedValue(mockApiResponse);
 
-    const {findByText, findByTestId} = render(
+    const {findByTestId} = render(
       <NativeBaseProvider initialWindowMetrics={inset}>
         <SearchResults
           route={{params: {query: 'Book'}}}
-          navigation={{navigate: jest.fn()}}
+          navigation={navigation}
         />
       </NativeBaseProvider>,
     );
 
     const searchBar = await findByTestId('search-bar');
     fireEvent.changeText(searchBar, 'Book');
-
     fireEvent(searchBar, 'blur');
 
     expect(mockedApi.get).toHaveBeenCalledWith(
       'search.json?q=Book&limit=10&offset=0',
     );
+  });
+  it('Renders results', async () => {
+    mockedApi.get.mockResolvedValue(mockApiResponse);
+
+    const {getByText} = render(
+      <NativeBaseProvider initialWindowMetrics={inset}>
+        <SearchResults
+          route={{params: {query: 'Book'}}}
+          navigation={navigation}
+        />
+      </NativeBaseProvider>,
+    );
 
     await waitFor(
       async () => {
-        expect(await findByText('Book 1')).toBeTruthy();
-        expect(await findByText('Book 2')).toBeTruthy();
+        const book1 = getByText('Book 1');
+        const book2 = getByText('Book 2');
+
+        expect(book1).toBeTruthy();
+        expect(book2).toBeTruthy();
       },
       {timeout: 2000},
     );
