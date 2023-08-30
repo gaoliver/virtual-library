@@ -5,11 +5,9 @@ import {spaces} from '@/constants/spaces';
 import {BookProps} from '@/@types/models';
 import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
-import {useNavigation} from '@react-navigation/native';
 import {AppNavigationProp} from 'App';
 
-export const ReadingList = () => {
-  const navigation = useNavigation<AppNavigationProp>();
+export const ReadingList = ({navigation}: {navigation: AppNavigationProp}) => {
   const readingList = useSelector((state: AppState) => state.readingList);
 
   const handlePressCard = (book: BookProps) => {
@@ -34,6 +32,7 @@ export const ReadingList = () => {
               my={'1'}
               book={item}
               onPress={() => handlePressCard(item)}
+              testID={item.key}
             />
           )}
         />

@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react-native';
-import {Favourites} from '../Favourites';
 import {Provider, useSelector} from 'react-redux';
 import {store} from '@/Redux/store';
 import {NativeBaseProvider} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import {mockBookList} from './@mocks/mockBookList';
 import {AppNavigationProp} from 'App';
+import {ReadingList} from '../ReadingList';
 
 const inset = {
   frame: {x: 0, y: 0, width: 0, height: 0},
@@ -16,19 +16,19 @@ const inset = {
 
 const navigation = useNavigation<AppNavigationProp>();
 
-describe('Favourites screen', () => {
+describe('Reading List screen', () => {
   it('Renders empty state screen', () => {
     useSelector.mockReturnValue([]);
 
     const {findByText} = render(
       <Provider store={store}>
         <NativeBaseProvider initialWindowMetrics={inset}>
-          <Favourites navigation={navigation} />
+          <ReadingList navigation={navigation} />
         </NativeBaseProvider>
       </Provider>,
     );
 
-    expect(findByText('No favourite yet.')).toBeTruthy();
+    expect(findByText('No book saved yet.')).toBeTruthy();
   });
 
   it('Renders book cards when exist', () => {
@@ -37,7 +37,7 @@ describe('Favourites screen', () => {
     const {getByText} = render(
       <Provider store={store}>
         <NativeBaseProvider initialWindowMetrics={inset}>
-          <Favourites navigation={navigation} />
+          <ReadingList navigation={navigation} />
         </NativeBaseProvider>
       </Provider>,
     );
@@ -52,7 +52,7 @@ describe('Favourites screen', () => {
     const {getByTestId} = render(
       <Provider store={store}>
         <NativeBaseProvider initialWindowMetrics={inset}>
-          <Favourites navigation={navigation} />
+          <ReadingList navigation={navigation} />
         </NativeBaseProvider>
       </Provider>,
     );
