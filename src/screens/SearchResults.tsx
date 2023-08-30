@@ -19,7 +19,7 @@ type SearchResultProps = SearchResultsStackProps & {
 
 const Loading = ({isLoading}: {isLoading: boolean}) => {
   if (isLoading) {
-    return <Spinner my={4} />;
+    return <Spinner my={4} testID="loading-spinner" />;
   }
 
   return <></>;
@@ -80,12 +80,13 @@ export const SearchResults: React.FC<SearchResultProps> = ({
 
   return (
     <Box flex={1}>
-      <Header hasGoBack>
+      <Header hasGoBack testID="header">
         <SearchBar
           w={'300px'}
           value={searchQuery}
           onChangeText={setSearchQuery}
           onBlur={handleNewSearch}
+          testID="search-bar"
         />
       </Header>
 
