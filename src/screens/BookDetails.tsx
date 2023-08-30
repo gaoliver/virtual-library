@@ -73,7 +73,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
   if (isLoading) {
     return (
       <Center flex={1}>
-        <Spinner />
+        <Spinner testID="loading-spinner" />
       </Center>
     );
   }
