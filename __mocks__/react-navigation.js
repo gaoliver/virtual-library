@@ -1,5 +1,3 @@
-// In __mocks__/react-navigation.js
-
 export const useNavigation = jest.fn();
 export const useRoute = jest.fn();
 
