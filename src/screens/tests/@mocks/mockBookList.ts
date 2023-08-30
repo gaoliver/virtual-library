@@ -1,4 +1,4 @@
-export const mockBookList = [
+export const mockBookListApi = [
   {
     key: '1',
     title: 'Book 1',
@@ -68,5 +68,43 @@ export const mockBookList = [
     author_name: ['Author 10'],
     cover_i: 2,
     first_publish_year: 2002,
+  },
+];
+
+export const mockBookList = [
+  {
+    key: '1',
+    title: 'Book 1',
+    author: 'Author 1',
+    cover: 'https://covers.openlibrary.org/b/id/1.jpg',
+    publishYear: 1998,
+  },
+  {
+    key: '2',
+    title: 'Book 2',
+    author: 'Author 2',
+    cover: 'https://covers.openlibrary.org/b/id/2.jpg',
+    publishYear: 1998,
+  },
+  {
+    key: '3',
+    title: 'Book 3',
+    author: 'Author 3',
+    cover: 'https://covers.openlibrary.org/b/id/3.jpg',
+    publishYear: 1998,
+  },
+  {
+    key: '4',
+    title: 'Book 4',
+    author: 'Author 4',
+    cover: 'https://covers.openlibrary.org/b/id/4.jpg',
+    publishYear: 1998,
+  },
+  {
+    key: '5',
+    title: 'Book 5',
+    author: 'Author 5',
+    cover: 'https://covers.openlibrary.org/b/id/5.jpg',
+    publishYear: 1998,
   },
 ];

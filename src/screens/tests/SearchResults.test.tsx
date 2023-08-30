@@ -3,7 +3,7 @@ import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import {SearchResults} from '../SearchResults';
 import {NativeBaseProvider} from 'native-base';
 import {api} from '@/Api';
-import {mockBookList} from './@mocks/mockBookList';
+import {mockBookList, mockBookListApi} from './@mocks/mockBookList';
 import {useNavigation} from '@react-navigation/native';
 
 const inset = {
@@ -16,7 +16,7 @@ const mockedApi = api as jest.Mocked<typeof api>;
 
 const mockApiResponse = {
   data: {
-    docs: mockBookList,
+    docs: mockBookListApi,
   },
 };
 
@@ -93,5 +93,29 @@ describe('SearchResults screen', () => {
       },
       {timeout: 2000},
     );
+  });
+  it('Navigates to BookDetails when book card is clicked', async () => {
+    mockedApi.get.mockResolvedValue(mockApiResponse);
+
+    const {getByTestId} = render(
+      <NativeBaseProvider initialWindowMetrics={inset}>
+        <SearchResults
+          route={{params: {query: 'Book'}}}
+          navigation={navigation}
+        />
+      </NativeBaseProvider>,
+    );
+
+    await waitFor(
+      async () => {
+        const book1 = getByTestId(mockBookList[0].key);
+        fireEvent.press(book1);
+      },
+      {timeout: 2000},
+    );
+
+    expect(navigation.navigate).toBeCalledWith('BookDetails', {
+      book: mockBookList[0],
+    });
   });
 });

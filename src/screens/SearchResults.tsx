@@ -47,8 +47,6 @@ export const SearchResults: React.FC<SearchResultProps> = ({
       author: book.author_name?.[0],
       cover: `${process.env.BOOK_COVER_URL}${book.cover_i}.jpg`,
       publishYear: book.first_publish_year,
-      isFavourite: false,
-      isOnReadingList: false,
     }));
   };
 
@@ -106,6 +104,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
             my={'1'}
             book={item}
             onPress={() => handlePressCard(item)}
+            testID={item.key}
           />
         )}
       />
