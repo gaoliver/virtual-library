@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@testing-library/react-native';
+import {cleanup, render} from '@testing-library/react-native';
 import {BookDetails} from '../BookDetails';
 import {NativeBaseProvider} from 'native-base';
 import {Provider} from 'react-redux';
@@ -15,6 +15,8 @@ const inset = {
 };
 
 describe('BookDetails screen', () => {
+  afterEach(cleanup);
+
   const mockApiResponse = {
     data: {
       key: '1',

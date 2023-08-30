@@ -1,5 +1,10 @@
 import React from 'react';
-import {render, fireEvent, waitFor} from '@testing-library/react-native';
+import {
+  render,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from '@testing-library/react-native';
 import {SearchResults} from '../SearchResults';
 import {NativeBaseProvider} from 'native-base';
 import {api} from '@/Api';
@@ -23,6 +28,7 @@ const mockApiResponse = {
 const navigation = useNavigation();
 
 describe('SearchResults screen', () => {
+  afterEach(cleanup);
   it('Renders error', async () => {
     const {findByText} = render(
       <NativeBaseProvider initialWindowMetrics={inset}>
