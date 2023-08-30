@@ -31,6 +31,9 @@ export const Header: React.FC<HeaderProps> = ({
       w="100%"
       justifyContent={'space-between'}
       alignItems={'center'}
+      _android={{
+        pt: '2',
+      }}
       {...props}>
       {hasGoBack && (
         <Pressable onPress={handleGoBack}>

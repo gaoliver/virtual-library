@@ -25,6 +25,7 @@ import {
 } from '@react-navigation/native-stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '@/theme/colors';
+import {Platform} from 'react-native';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -47,14 +48,6 @@ export type AppNavigationProp = NativeStackNavigationProp<
   'TabNavigator'
 >;
 
-const TabStyle: BottomTabNavigationOptions = {
-  tabBarStyle: {
-    backgroundColor: colors.secondary,
-  },
-  tabBarInactiveTintColor: colors.white,
-  tabBarActiveTintColor: colors.primary,
-};
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootBottomParamList>();
 const MainStack = createNativeStackNavigator<RootMainStackParamList>();
@@ -67,11 +60,23 @@ const SearchNavigation = () => (
 );
 
 const TabNavigation = () => (
-  <Tab.Navigator screenOptions={{headerShown: false}}>
+  <Tab.Navigator
+    screenOptions={{
+      headerShown: false,
+      tabBarStyle: {
+        backgroundColor: colors.secondary,
+        ...(Platform.OS === 'android' && {
+          height: 60,
+          paddingTop: 5,
+          paddingBottom: 10,
+        }),
+      },
+      tabBarInactiveTintColor: colors.white,
+      tabBarActiveTintColor: colors.primary,
+    }}>
     <Tab.Screen
       name="SearchNavigator"
       options={{
-        ...TabStyle,
         tabBarLabel: 'Home',
         tabBarIcon: ({color, size}) => (
           <Icon
@@ -87,7 +92,6 @@ const TabNavigation = () => (
       name="Favourites"
       component={Favourites}
       options={{
-        ...TabStyle,
         tabBarIcon: ({color, size}) => (
           <Icon
             color={color}
@@ -101,7 +105,6 @@ const TabNavigation = () => (
       name="ReadingList"
       options={{
         tabBarLabel: 'Reading List',
-        ...TabStyle,
         tabBarIcon: ({color, size}) => (
           <Icon
             color={color}

@@ -6,11 +6,10 @@ import {
   HStack,
   Image,
   ScrollView,
-  Spinner,
   StatusBar,
   Text,
 } from 'native-base';
-import {Header, IconButton, showToast} from '@/components';
+import {Header, IconButton, Spinner, showToast} from '@/components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootMainStackParamList} from 'App';
 import {spaces} from '@/constants/spaces';
@@ -145,6 +144,9 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
             onPress={handleSaveReadlingList}
             mt={'12'}
             mb={bottom}
+            _android={{
+              mb: '4'
+            }}
           />
         </Box>
       </ScrollView>
