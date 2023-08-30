@@ -5,11 +5,9 @@ import {spaces} from '@/constants/spaces';
 import {BookProps} from '@/@types/models';
 import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
-import {useNavigation} from '@react-navigation/native';
 import {AppNavigationProp} from 'App';
 
-export const Favourites = () => {
-  const navigation = useNavigation<AppNavigationProp>();
+export const Favourites = ({navigation}: {navigation: AppNavigationProp}) => {
   const favourites = useSelector((state: AppState) => state.favourites);
 
   const handlePressCard = (book: BookProps) => {
@@ -34,6 +32,7 @@ export const Favourites = () => {
               my={'1'}
               book={item}
               onPress={() => handlePressCard(item)}
+              testID={item.key}
             />
           )}
         />
