@@ -22,7 +22,13 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   return (
     <Center safeArea flex={1} bgColor={'secondary'} px={'12'}>
       <AspectRatio ratio={30 / 17} w={'200px'}>
-        <Image w="100%" h="100%" source={logo} alt="Virutal Library logo" />
+        <Image
+          w="100%"
+          h="100%"
+          source={logo}
+          alt="Virutal Library logo"
+          testID="virtual-library-logo"
+        />
       </AspectRatio>
 
       <SearchBar
@@ -30,6 +36,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
         value={searchQuery}
         onChangeText={setSearchQuery}
         onBlur={handleSearch}
+        testID="searchbar"
       />
     </Center>
   );
