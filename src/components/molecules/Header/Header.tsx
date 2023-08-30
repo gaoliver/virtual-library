@@ -25,20 +25,20 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <HStack
       safeAreaTop
-      bgColor={'secondary'}
-      pb={'2'}
+      bgColor="secondary"
+      pb={2}
       px={spaces.screenWidth}
       w="100%"
-      justifyContent={'space-between'}
-      alignItems={'center'}
+      justifyContent="space-between"
+      alignItems="center"
       _android={{
-        pt: '2',
+        pt: 2,
       }}
       {...props}>
       {hasGoBack && (
         <Pressable onPress={handleGoBack}>
           <Icon
-            size={'6'}
+            size={6}
             color="white"
             as={<MaterialIcons name="arrow-back" />}
           />
@@ -47,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {title ? (
         <Center flex={1}>
-          <Heading color={'white'}>{title}</Heading>
+          <Heading color="white">{title}</Heading>
         </Center>
       ) : (
         children

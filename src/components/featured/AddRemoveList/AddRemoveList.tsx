@@ -12,27 +12,19 @@ export const AddRemoveList: React.FC<AddRemoveListProps> = ({
   isOnReadingList,
   ...props
 }) => {
+  const iconName = isOnReadingList ? 'bookmark' : 'bookmark-outline';
+  const actionText = isOnReadingList ? 'Remove from' : 'Add to';
+
   return (
     <Button
       {...props}
-      py={'2'}
+      py={2}
       w="100%"
       bgColor="secondary"
       onPress={onPress}
       _pressed={{style: {transform: [{scale: 0.98}]}}}
-      leftIcon={
-        <Icon
-          size={'5'}
-          as={
-            <MaterialIcons
-              name={!isOnReadingList ? 'bookmark-outline' : 'bookmark'}
-            />
-          }
-        />
-      }>
-      <Text color={'white'}>{`${
-        isOnReadingList ? 'Remove from' : 'Add to'
-      } Reading List`}</Text>
+      leftIcon={<Icon size={5} as={<MaterialIcons name={iconName} />} />}>
+      <Text color="white">{`${actionText} Reading List`}</Text>
     </Button>
   );
 };

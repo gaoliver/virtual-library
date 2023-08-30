@@ -1,27 +1,17 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useMemo, useState} from 'react';
-import {
-  Box,
-  Center,
-  HStack,
-  Image,
-  ScrollView,
-  StatusBar,
-  Text,
-} from 'native-base';
-import {Header, IconButton, Spinner, showToast} from '@/components';
+import {Box, HStack, Image, StatusBar, Text, ScrollView} from 'native-base';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSelector, useDispatch} from 'react-redux';
+import {showToast, Header, IconButton, Spinner} from '@/components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootMainStackParamList} from 'App';
 import {spaces} from '@/constants/spaces';
 import LinearGradient from 'react-native-linear-gradient';
 import {BookPropsApi} from '@/@types/models';
 import {colors} from '@/theme/colors';
-import {useDispatch} from 'react-redux';
-import {actions} from '@/Redux/slices';
-import {AddRemoveList} from '@/components/featured/AddRemoveList/AddRemoveList';
+import {AppState, actions} from '@/Redux/slices';
 import {api} from '@/Api';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {store} from '@/Redux/store';
+import {AddRemoveList} from '@/components/featured/AddRemoveList';
 
 type BookDetailsProps = NativeStackScreenProps<
   RootMainStackParamList,
@@ -30,22 +20,23 @@ type BookDetailsProps = NativeStackScreenProps<
 
 export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
   const {book} = route.params;
-  const {favourites, readingList} = store.getState();
   const {bottom} = useSafeAreaInsets();
+  const dispatch = useDispatch();
+
+  const favourites = useSelector((state: AppState) => state.favourites);
+  const readingList = useSelector((state: AppState) => state.readingList);
 
   const [bookDescription, setBookDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const dispatch = useDispatch();
-
-  const isFavourite = !!favourites?.find(item => item.key === book.key);
-  const isOnReadingList = !!readingList?.find(item => item.key === book.key);
+  const isFavourite = favourites?.some(item => item.key === book.key);
+  const isOnReadingList = readingList?.some(item => item.key === book.key);
 
   const handleSaveFavourite = () => {
     dispatch(actions.saveFavourite(book));
   };
 
-  const handleSaveReadlingList = () => {
+  const handleSaveReadingList = () => {
     dispatch(actions.saveToReadingList(book));
   };
 
@@ -70,17 +61,13 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
   }, [book]);
 
   if (isLoading) {
-    return (
-      <Center flex={1}>
-        <Spinner testID="loading-spinner" />
-      </Center>
-    );
+    return <Spinner testID="loading-spinner" />;
   }
 
   return (
     <Box flex={1}>
-      <StatusBar barStyle={'light-content'} />
-      <Header hasGoBack bgColor={'transparent'}>
+      <StatusBar barStyle="light-content" />
+      <Header hasGoBack bgColor="transparent">
         <HStack>
           <IconButton
             icon={isFavourite ? 'heart' : 'heart-outline'}
@@ -90,11 +77,11 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
         </HStack>
       </Header>
 
-      <Box w="100%" h="auto" position={'absolute'} zIndex={-1}>
+      <Box w="100%" h="auto" position="absolute" zIndex={-1}>
         <Image
           src={book.cover}
-          w={'100%'}
-          h="450px"
+          w="100%"
+          h={450}
           alt={`${book.title} - cover image`}
         />
         <LinearGradient
@@ -113,39 +100,39 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
 
       <ScrollView bounces={false}>
         <Box
-          mt="320px"
-          bgColor={'white'}
+          mt={320}
+          bgColor="white"
           w="100%"
-          minH={'700px'}
+          minH={700}
           px={spaces.screenWidth}
-          pt={'4'}
-          borderTopRadius={'10'}
+          pt={4}
+          borderTopRadius={10}
           flex={1}>
-          <Text fontSize={'2xl'} fontWeight={'semibold'}>
+          <Text fontSize="2xl" fontWeight="semibold">
             {book.title}
           </Text>
 
-          <HStack mt={'4'}>
-            <Text flex={1} fontSize={'md'}>
+          <HStack mt={4}>
+            <Text flex={1} fontSize="md">
               {book.author}
             </Text>
-            <Text flex={1} fontSize={'md'}>
+            <Text flex={1} fontSize="md">
               {book.publishYear}
             </Text>
           </HStack>
 
-          <Text fontSize={'lg'} fontWeight={'semibold'} mt="12">
+          <Text fontSize="lg" fontWeight="semibold" mt={12}>
             Book summary
           </Text>
-          <Text mt="4">{bookDescription}</Text>
+          <Text mt={4}>{bookDescription}</Text>
 
           <AddRemoveList
             isOnReadingList={isOnReadingList}
-            onPress={handleSaveReadlingList}
-            mt={'12'}
+            onPress={handleSaveReadingList}
+            mt={12}
             mb={bottom}
             _android={{
-              mb: '4'
+              mb: 4,
             }}
           />
         </Box>

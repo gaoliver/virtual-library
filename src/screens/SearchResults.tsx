@@ -22,7 +22,7 @@ const Loading = ({isLoading}: {isLoading: boolean}) => {
     return <Spinner my={4} testID="loading-spinner" />;
   }
 
-  return <></>;
+  return null;
 };
 
 export const SearchResults: React.FC<SearchResultProps> = ({
@@ -44,9 +44,9 @@ export const SearchResults: React.FC<SearchResultProps> = ({
     return response.map(book => ({
       key: book.key,
       title: book.title,
-      author: book.author_name?.[0],
+      author: book.author_name?.[0] || 'Unknown Author',
       cover: `${process.env.BOOK_COVER_URL}${book.cover_i}.jpg`,
-      publishYear: book.first_publish_year,
+      publishYear: book.first_publish_year || 'N/A',
     }));
   };
 
@@ -80,7 +80,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
     <Box flex={1}>
       <Header hasGoBack testID="header">
         <SearchBar
-          w={'300px'}
+          w={300}
           value={searchQuery}
           onChangeText={setSearchQuery}
           onBlur={handleNewSearch}
@@ -89,7 +89,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
       </Header>
 
       <FlatList
-        pt={'1'}
+        pt={1}
         px={spaces.screenWidth}
         data={data}
         onEndReached={() => {
@@ -101,7 +101,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
         ListFooterComponent={<Loading isLoading={isLoading} />}
         renderItem={({item}) => (
           <BookCard
-            my={'1'}
+            my={1}
             book={item}
             onPress={() => handlePressCard(item)}
             testID={item.key}

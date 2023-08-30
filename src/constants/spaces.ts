@@ -1,3 +1,3 @@
 export const spaces = {
-  screenWidth: '4',
+  screenWidth: 2,
 };

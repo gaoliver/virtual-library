@@ -14,10 +14,7 @@ import {SearchResults} from './src/screens/SearchResults';
 import {BookDetails} from './src/screens/BookDetails';
 import {Favourites} from './src/screens/Favourites';
 import {ReadingList} from './src/screens/ReadingList';
-import {
-  BottomTabNavigationOptions,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Provider} from 'react-redux';
 import {
   NativeStackNavigationProp,

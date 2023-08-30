@@ -7,7 +7,11 @@ import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
 import {AppNavigationProp} from 'App';
 
-export const Favourites = ({navigation}: {navigation: AppNavigationProp}) => {
+interface FavouritesProps {
+  navigation: AppNavigationProp;
+}
+
+export const Favourites: React.FC<FavouritesProps> = ({navigation}) => {
   const favourites = useSelector((state: AppState) => state.favourites);
 
   const handlePressCard = (book: BookProps) => {
@@ -24,12 +28,12 @@ export const Favourites = ({navigation}: {navigation: AppNavigationProp}) => {
         </Center>
       ) : (
         <FlatList
-          pt={'1'}
+          pt={1}
           px={spaces.screenWidth}
           data={favourites}
           renderItem={({item}) => (
             <BookCard
-              my={'1'}
+              my={1}
               book={item}
               onPress={() => handlePressCard(item)}
               testID={item.key}

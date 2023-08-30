@@ -20,8 +20,8 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   };
 
   return (
-    <Center safeArea flex={1} bgColor={'secondary'} px={'12'}>
-      <AspectRatio ratio={30 / 17} w={'200px'}>
+    <Center safeArea flex={1} bgColor="secondary" px={12}>
+      <AspectRatio ratio={30 / 17} w="200px">
         <Image
           w="100%"
           h="100%"
@@ -32,7 +32,7 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
       </AspectRatio>
 
       <SearchBar
-        mt={'4'}
+        mt={4}
         value={searchQuery}
         onChangeText={setSearchQuery}
         onBlur={handleSearch}

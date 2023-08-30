@@ -22,41 +22,27 @@ export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
   const {author, cover, publishYear, title} = book;
   const favourites = useSelector((state: AppState) => state.favourites);
   const readingList = useSelector((state: AppState) => state.readingList);
-
   const dispatch = useDispatch();
 
-  const isFavourite = !!favourites?.find(item => item.key === book.key);
-  const isOnReadingList = !!readingList?.find(item => item.key === book.key);
+  const isFavourite = favourites?.some(item => item.key === book.key);
+  const isOnReadingList = readingList?.some(item => item.key === book.key);
 
   const handleSaveFavourite = () => {
     dispatch(actions.saveFavourite(book));
   };
 
-  const handleSaveReadlingList = () => {
+  const handleSaveReadingList = () => {
     dispatch(actions.saveToReadingList(book));
   };
 
   return (
-    <Pressable shadow="2" bgColor={'white'} borderRadius={10} {...props}>
-      <HStack
-        w="100%"
-        bgColor={'white'}
-        borderRadius={'10'}
-        overflow={'hidden'}>
-        <Image
-          w={'100px'}
-          h={'150px'}
-          src={cover}
-          alt={`${title} - book cover`}
-        />
+    <Pressable shadow={2} bgColor="white" borderRadius={10} {...props}>
+      <HStack w="100%" bgColor="white" borderRadius={10} overflow="hidden">
+        <Image w={100} h={150} src={cover} alt={`${title} - book cover`} />
 
-        <VStack p="3" flex={1}>
-          <HStack alignItems={'center'}>
-            <Text
-              fontSize={'lg'}
-              fontWeight={'semibold'}
-              noOfLines={1}
-              flex={1}>
+        <VStack p={3} flex={1}>
+          <HStack alignItems="center" justifyContent="space-between">
+            <Text fontSize="lg" fontWeight="semibold" noOfLines={1} flex={1}>
               {title}
             </Text>
             <IconButton
@@ -70,8 +56,8 @@ export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
 
           <AddRemoveList
             isOnReadingList={isOnReadingList}
-            onPress={handleSaveReadlingList}
-            mt={'auto'}
+            onPress={handleSaveReadingList}
+            mt="auto"
           />
         </VStack>
       </HStack>

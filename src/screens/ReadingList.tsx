@@ -7,7 +7,11 @@ import {useSelector} from 'react-redux';
 import {AppState} from '@/Redux/slices';
 import {AppNavigationProp} from 'App';
 
-export const ReadingList = ({navigation}: {navigation: AppNavigationProp}) => {
+interface ReadingListProps {
+  navigation: AppNavigationProp;
+}
+
+export const ReadingList: React.FC<ReadingListProps> = ({navigation}) => {
   const readingList = useSelector((state: AppState) => state.readingList);
 
   const handlePressCard = (book: BookProps) => {
@@ -24,12 +28,12 @@ export const ReadingList = ({navigation}: {navigation: AppNavigationProp}) => {
         </Center>
       ) : (
         <FlatList
-          pt={'1'}
+          pt={1}
           px={spaces.screenWidth}
           data={readingList}
           renderItem={({item}) => (
             <BookCard
-              my={'1'}
+              my={1}
               book={item}
               onPress={() => handlePressCard(item)}
               testID={item.key}
