@@ -1,19 +1,17 @@
 import React from 'react';
-import {render, waitFor} from '@testing-library/react-native';
+import {render} from '@testing-library/react-native';
 import {BookDetails} from '../BookDetails';
 import {NativeBaseProvider} from 'native-base';
 import {Provider} from 'react-redux';
 import {store} from '@/Redux/store';
 import {api} from '@/Api';
 
-// Mock the useDispatch and useSelector hooks
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useSelector: jest.fn(),
   useDispatch: () => jest.fn(),
 }));
 
-// Mock the navigation hook
 jest.mock('@react-navigation/native-stack', () => ({
   ...jest.requireActual('@react-navigation/native-stack'),
   useNavigation: () => ({
@@ -21,7 +19,6 @@ jest.mock('@react-navigation/native-stack', () => ({
   }),
 }));
 
-// Mock the api module
 jest.mock('@/Api');
 const mockedApi = api as jest.Mocked<typeof api>;
 
