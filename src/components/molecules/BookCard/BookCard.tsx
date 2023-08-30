@@ -9,11 +9,10 @@ import {
 import React from 'react';
 import {colors} from '@/theme/colors';
 import {BookProps} from '@/@types/models';
-import {useDispatch} from 'react-redux';
-import {actions} from '@/Redux/slices';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppState, actions} from '@/Redux/slices';
 import {IconButton} from '@/components/atoms';
 import {AddRemoveList} from '@/components/featured/AddRemoveList/AddRemoveList';
-import {store} from '@/Redux/store';
 
 export type BookCardProps = {
   book: BookProps;
@@ -21,7 +20,8 @@ export type BookCardProps = {
 
 export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
   const {author, cover, publishYear, title} = book;
-  const {favourites, readingList} = store.getState();
+  const favourites = useSelector((state: AppState) => state.favourites);
+  const readingList = useSelector((state: AppState) => state.readingList);
 
   const dispatch = useDispatch();
 
