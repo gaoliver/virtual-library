@@ -23,6 +23,7 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '@/theme/colors';
 import {Platform} from 'react-native';
+import {AllUserBooks} from '@/screens/AllUserBooks';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -33,6 +34,7 @@ export type RootBottomParamList = {
   SearchNavigator: NavigatorScreenParams<RootStackParamList>;
   Favourites: undefined;
   ReadingList: undefined;
+  AllUserBooks: undefined;
 };
 
 export type RootMainStackParamList = {
@@ -111,6 +113,20 @@ const TabNavigation = () => (
         ),
       }}
       component={ReadingList}
+    />
+    <Tab.Screen
+      name="AllUserBooks"
+      options={{
+        tabBarLabel: 'My Books',
+        tabBarIcon: ({color, size}) => (
+          <Icon
+            color={color}
+            size={size}
+            as={<MaterialCommunityIcons name="book-multiple" />}
+          />
+        ),
+      }}
+      component={AllUserBooks}
     />
   </Tab.Navigator>
 );
