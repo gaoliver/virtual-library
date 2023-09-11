@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppNavigationProp, RootStackParamList} from 'App';
 import {Box, FlatList} from 'native-base';
@@ -50,7 +50,7 @@ export const SearchResults: React.FC<SearchResultProps> = ({
     }));
   };
 
-  useMemo(async () => {
+  const fetchData = async () => {
     setIsLoading(true);
 
     try {
@@ -69,6 +69,10 @@ export const SearchResults: React.FC<SearchResultProps> = ({
       showToast('A network error occurred. Please try again later.');
       setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [offset]);
 
   const handleNewSearch = () => {

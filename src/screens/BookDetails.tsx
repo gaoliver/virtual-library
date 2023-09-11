@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useMemo, useState} from 'react';
 import {Box, HStack, StatusBar, Text, ScrollView} from 'native-base';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -42,7 +43,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
     dispatch(actions.saveToReadingList(book));
   };
 
-  useMemo(async () => {
+  const fetchBook = async () => {
     setIsLoading(true);
 
     try {
@@ -60,6 +61,10 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
       showToast('An error occurred. Please try again later.');
       setIsLoading(false);
     }
+  };
+
+  useMemo(() => {
+    fetchBook();
   }, [book]);
 
   if (isLoading) {
