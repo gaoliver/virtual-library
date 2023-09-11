@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {AspectRatio, Center, Image} from 'native-base';
+import {AspectRatio, Center} from 'native-base';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SearchBar} from '@/components';
 import {RootStackParamList} from 'App';
+import FastImage from 'react-native-fast-image';
+import {StyleSheet} from 'react-native';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -22,11 +24,9 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
   return (
     <Center safeArea flex={1} bgColor="secondary" px={12}>
       <AspectRatio ratio={30 / 17} w="200px">
-        <Image
-          w="100%"
-          h="100%"
+        <FastImage
+          style={styles.logo}
           source={logo}
-          alt="Virutal Library logo"
           testID="virtual-library-logo"
         />
       </AspectRatio>
@@ -41,3 +41,10 @@ export const Home: React.FC<HomeProps> = ({navigation}) => {
     </Center>
   );
 };
+
+const styles = StyleSheet.create({
+  logo: {
+    width: '100%',
+    height: '100%',
+  },
+});

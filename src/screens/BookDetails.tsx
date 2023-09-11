@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import {Box, HStack, Image, StatusBar, Text, ScrollView} from 'native-base';
+import {Box, HStack, StatusBar, Text, ScrollView} from 'native-base';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import {showToast, Header, IconButton, Spinner} from '@/components';
@@ -12,6 +12,8 @@ import {colors} from '@/theme/colors';
 import {AppState, actions} from '@/Redux/slices';
 import {api} from '@/Api';
 import {AddRemoveList} from '@/components/featured/AddRemoveList';
+import FastImage from 'react-native-fast-image';
+import {StyleSheet} from 'react-native';
 
 type BookDetailsProps = NativeStackScreenProps<
   RootMainStackParamList,
@@ -78,23 +80,12 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
       </Header>
 
       <Box w="100%" h="auto" position="absolute" zIndex={-1}>
-        <Image
-          src={book.cover}
-          w="100%"
-          h={450}
-          alt={`${book.title} - cover image`}
-        />
+        <FastImage source={{uri: book.cover}} style={styles.image} />
         <LinearGradient
           colors={['rgba(0, 0, 0, 0.6)', 'rgba(255, 255, 255, 0)']}
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
+          style={styles.gradient}
         />
       </Box>
 
@@ -140,3 +131,17 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
     </Box>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: 450,
+  },
+  gradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+});

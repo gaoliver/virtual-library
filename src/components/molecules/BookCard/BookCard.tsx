@@ -1,11 +1,4 @@
-import {
-  HStack,
-  IPressableProps,
-  Image,
-  Pressable,
-  Text,
-  VStack,
-} from 'native-base';
+import {HStack, IPressableProps, Pressable, Text, VStack} from 'native-base';
 import React from 'react';
 import {colors} from '@/theme/colors';
 import {BookProps} from '@/@types/models';
@@ -13,6 +6,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppState, actions} from '@/Redux/slices';
 import {IconButton} from '@/components/atoms';
 import {AddRemoveList} from '@/components/featured/AddRemoveList/AddRemoveList';
+import FastImage from 'react-native-fast-image';
+import {StyleSheet} from 'react-native';
 
 export type BookCardProps = {
   book: BookProps;
@@ -38,7 +33,7 @@ export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
   return (
     <Pressable shadow={2} bgColor="white" borderRadius={10} {...props}>
       <HStack w="100%" bgColor="white" borderRadius={10} overflow="hidden">
-        <Image w={100} h={150} src={cover} alt={`${title} - book cover`} />
+        <FastImage source={{uri: cover}} style={styles.image} />
 
         <VStack p={3} flex={1}>
           <HStack alignItems="center" justifyContent="space-between">
@@ -64,3 +59,10 @@ export const BookCard: React.FC<BookCardProps> = ({book, ...props}) => {
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: 100,
+    height: 150,
+  },
+});
