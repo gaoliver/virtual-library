@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, HStack, StatusBar, Text, ScrollView} from 'native-base';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
@@ -63,7 +63,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({route}) => {
     }
   };
 
-  useMemo(() => {
+  useEffect(() => {
     fetchBook();
   }, [book]);
 
